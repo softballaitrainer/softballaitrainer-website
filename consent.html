@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parental Consent — Softball AI Trainer</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=20260907">
+  <meta name="robots" content="noindex">
+  <!--
+    Parental consent page for the coach → parent consent invite flow (COPPA).
+    Opened from the app's share message: consent.html?token=<inviteId>
+    Reads consent_invites/{token} from Firestore and lets the PARENT submit the
+    grant themselves — directly attributable consent with a server timestamp,
+    not a coach attestation. The app reconciles the grant.
+
+    COPPA "email plus" (Aug 27, 2026): before the parent can grant, they must
+    prove control of their email address — we send a Firebase email sign-in
+    link; clicking it signs them in with a VERIFIED email, and the Firestore
+    rules only accept a grant whose parentEmail matches that verified token
+    email. Anonymous sessions can still read the invite (to show the athlete's
+    name) but cannot grant.
+
+    SETUP (Firebase Console, project "softballaitrainer"):
+      1. Project settings → Your apps → Add app → Web → copy config below.
+      2. Authentication → Sign-in method → enable Anonymous AND
+         Email/Password with "Email link (passwordless sign-in)" ON.
+      3. Authentication → Settings → Authorized domains → add
+         softballaitrainer.com (the sign-in link returns here).
+      4. Publish firestore.rules from the app repo (consent_invites update
+         rule requires email_verified + parentEmail == token email).
+  -->
+  <style>
+    .consent-card { max-width: 560px; margin: 40px auto; background: var(--white);
+      border: 1px solid var(--subtle-border); border-radius: 16px; padding: 32px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+    .consent-card h1 { font-size: 24px; margin-bottom: 6px; }
+    .consent-card .sub { color: var(--gray-text); font-size: 15px; margin-bottom: 16px; }
+    .consent-card ul { color: var(--gray-text); font-size: 14.5px; padding-left: 20px; margin-bottom: 8px; }
+    .consent-card label { display: block; font-size: 13px; font-weight: 600; margin: 16px 0 4px; }
+    .consent-card input[type=text], .consent-card input[type=email], .consent-card select {
+      width: 100%; padding: 10px 12px; font-size: 15px; border: 1px solid var(--subtle-border);
+      border-radius: 8px; background: var(--white); font-family: inherit; }
+    .consent-card input[readonly] { background: #F3F4F6; color: var(--gray-text); }
+    .check { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0; font-size: 14.5px; }
+    .check input { width: 20px; height: 20px; margin-top: 2px; flex: none; }
+    .consent-btn { width: 100%; margin-top: 18px; padding: 14px; font-size: 16px; font-weight: 700;
+      color: var(--navy); background: var(--green); border: 0; border-radius: 24px; cursor: pointer; }
+    .consent-btn:disabled { background: var(--subtle-border); color: var(--gray-text); cursor: default; }
+    .ok-panel { text-align: center; padding: 24px 8px; }
+    .ok-panel .big { font-size: 48px; }
+    .err { color: #C62828; font-size: 14px; margin-top: 12px; }
+    .note { font-size: 13px; color: var(--gray-text); margin-top: 10px; }
+    .verified { display: inline-block; font-size: 12px; font-weight: 700; color: #1B5E20;
+      background: #E8F5E9; border-radius: 10px; padding: 2px 8px; margin-left: 6px; }
+    .hidden { display: none; }
+    .page-foot { text-align: center; color: var(--gray-text); font-size: 12.5px; margin: 24px 0 48px; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">Softball AI Trainer</a>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <div id="loading" class="consent-card"><p class="sub">Loading consent request…</p></div>
+
+    <div id="notfound" class="consent-card hidden">
+      <h1>Link not found</h1>
+      <p class="sub">This consent link isn't available yet or has expired. If the coach just
+      sent it, give it a minute and refresh — otherwise ask them to send a new link.</p>
+    </div>
+
+    <div id="done" class="consent-card ok-panel hidden">
+      <div class="big">✅</div>
+      <h1>Consent recorded — thank you!</h1>
+      <p class="sub">You can close this page. The coach's app will unlock
+        <span id="doneAthlete">your athlete</span> automatically.</p>
+    </div>
+
+    <!-- Step 1: prove control of the parent's email (COPPA "email plus") -->
+    <div id="verify" class="consent-card hidden">
+      <h1>Parental consent for <span id="athleteNameV">…</span></h1>
+      <p class="sub">A coach uses Softball AI Trainer to analyze
+        <span id="athleteNameV2">this athlete</span>'s softball mechanics
+        (<span id="ageGroupV"></span>). Because this athlete is under 13, U.S. law (COPPA)
+        requires consent from a parent or legal guardian — and requires us to
+        confirm we're really talking to you.</p>
+      <p class="sub"><strong>Step 1 of 2:</strong> enter your email and we'll send you a
+        one-time sign-in link. Opening it brings you back here to review and
+        give consent. No password, no account.</p>
+      <label for="vemail">Your email</label>
+      <input id="vemail" type="email" autocomplete="email" placeholder="you@example.com">
+      <button id="sendLink" class="consent-btn" disabled>Send me the link</button>
+      <div id="verr" class="err hidden"></div>
+      <p class="note">Already have the link? Open it on this device and you'll land on Step 2.</p>
+    </div>
+
+    <div id="sent" class="consent-card ok-panel hidden">
+      <div class="big">📬</div>
+      <h1>Check your email</h1>
+      <p class="sub">We sent a sign-in link to <strong><span id="sentTo"></span></strong>.
+        Open it on this device to continue to Step 2 (review &amp; consent).
+        Didn't get it? Check spam, or <a href="#" id="resend">send it again</a>.</p>
+    </div>
+
+    <!-- Step 2: review + grant (only reachable with a verified email session) -->
+    <div id="form" class="consent-card hidden">
+      <h1>Parental consent for <span id="athleteName">…</span></h1>
+      <p class="sub"><strong>Step 2 of 2.</strong> A coach uses Softball AI Trainer to analyze
+        <span id="athleteName2">this athlete</span>'s softball mechanics
+        (<span id="ageGroup"></span>). Because this athlete is under 13, U.S. law (COPPA)
+        requires consent from a parent or legal guardian before the app can analyze
+        their practice videos.</p>
+      <ul>
+        <li>Practice video is analyzed <strong>on the device</strong> — video is never uploaded to our servers. Images leave the device only if the coach explicitly shares an analysis card (first name, scores, and a keyframe image).</li>
+        <li>Only your child's age bracket, analysis scores, skeletal position measurements, typed questions, and a scrambled code that stands for the account are sent to our AI coaching provider (Anthropic) — never photos, video, your child's name, or contact information. The app replaces the child's name with a placeholder before anything leaves the device.</li>
+        <li>Scores and progress are stored locally in the coach's app on their device &mdash; analysis results are not uploaded to our servers.</li>
+        <li>A secure record of this consent is kept for your child's protection.</li>
+        <li>You may revoke consent any time by contacting the coach or
+            <a href="mailto:support@softballaitrainer.com">support@softballaitrainer.com</a>.</li>
+      </ul>
+
+      <label for="pname">Your full name</label>
+      <input id="pname" type="text" autocomplete="name" placeholder="Parent or guardian name">
+      <label for="pemail">Your email <span class="verified">verified</span></label>
+      <input id="pemail" type="email" readonly>
+      <label for="prel">Relationship to the athlete</label>
+      <select id="prel">
+        <option value="">Select…</option>
+        <option>Mother</option><option>Father</option>
+        <option>Legal guardian</option><option>Other</option>
+      </select>
+
+      <div class="check"><input type="checkbox" id="c1">
+        <label for="c1">I am the parent or legal guardian of <strong><span id="athleteName3"></span></strong>.</label></div>
+      <div class="check"><input type="checkbox" id="c2">
+        <label for="c2">I consent to the data practices described above and in the
+          <a href="/privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</label></div>
+      <!-- OPTIONAL (16 CFR 312.5(a)(2)): the parent must be able to consent to
+           collection and use WITHOUT consenting to off-device disclosure. Coach
+           Jodi is the only feature that sends anything off the phone, so it is
+           the only one behind this checkbox. Deliberately NOT part of the
+           submit-enable condition below. -->
+      <div class="check"><input type="checkbox" id="c3">
+        <label for="c3"><strong>Optional:</strong> I also consent to AI coaching (Coach Jodi) for
+          <strong><span id="athleteName4"></span></strong>. When it is used, the age
+          bracket, scores, body-position measurements and typed questions described
+          above are sent to our AI provider (Anthropic) &mdash; never the name, video
+          or photos. Video analysis, scores and drills all work without this, and it
+          can be turned off later.</label></div>
+
+      <button id="submit" class="consent-btn" disabled>I Consent</button>
+      <div id="err" class="err hidden"></div>
+    </div>
+
+    <div class="page-foot">Softball AI Trainer ·
+      <a href="/privacy.html">Privacy Policy</a> · <a href="/terms.html">Terms</a></div>
+  </div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, signInAnonymously, sendSignInLinkToEmail, isSignInWithEmailLink,
+         signInWithEmailLink } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ── REPLACE with the Web App config from Firebase Console (project
+//    "softballaitrainer" → Project settings → Your apps → Web app) ──
+// Web app "Softball AI Trainer Web (consent page)", registered Aug 28 2026
+// via `firebase apps:create WEB`. The web API key is a public identifier by
+// design; restrict it by HTTP referrer (softballaitrainer.com) in Google
+// Cloud → Credentials once the site is live (LAUNCH_PLAN D5/E2).
+const firebaseConfig = {
+  apiKey: "AIzaSyAXfkPMXybBKRBcg3JfmQsZMepS11n14x8",
+  authDomain: "softballaitrainer.firebaseapp.com",
+  projectId: "softballaitrainer",
+  appId: "1:616135177846:web:d4755a6f81fc79b1919157",
+};
+
+const PANELS = ["loading", "notfound", "done", "verify", "sent", "form"];
+const $ = (id) => document.getElementById(id);
+const show = (id) => { for (const s of PANELS) $(s).classList.add("hidden"); $(id).classList.remove("hidden"); };
+const EMAIL_KEY = "sai_consent_email";
+
+const params = new URLSearchParams(location.search);
+const token = params.get("token");
+
+// The sign-in link must bring the parent back to THIS invite. Firebase appends
+// its own oobCode/mode params; we keep our token in the continue URL.
+const continueUrl = () => `${location.origin}${location.pathname}?token=${encodeURIComponent(token)}`;
+
+async function main() {
+  if (!token) { show("notfound"); return; }
+  let app, auth, db, ref, invite;
+  try {
+    app = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    db = getFirestore(app);
+    ref = doc(db, "consent_invites", token);
+
+    // ── Returning from the email link? Complete the verified sign-in first. ──
+    let verifiedEmail = null;
+    if (isSignInWithEmailLink(auth, location.href)) {
+      let email = null;
+      try { email = localStorage.getItem(EMAIL_KEY); } catch (_) {}
+      if (!email) email = window.prompt("Confirm the email address you entered for verification:");
+      if (email) {
+        try {
+          const cred = await signInWithEmailLink(auth, email.trim(), location.href);
+          verifiedEmail = cred.user.email;
+          try { localStorage.removeItem(EMAIL_KEY); } catch (_) {}
+          // Drop the one-time code from the address bar (keeps refresh working).
+          history.replaceState(null, "", continueUrl());
+        } catch (e) {
+          // Expired/used link → fall back to Step 1 with a message.
+          console.warn("email-link sign-in failed", e);
+        }
+      }
+    }
+    if (!verifiedEmail) {
+      // Anonymous read-only session: enough to display the invite.
+      if (!auth.currentUser) await signInAnonymously(auth);
+    }
+
+    const snap = await getDoc(ref);
+    if (!snap.exists()) { show("notfound"); return; }
+    invite = snap.data();
+    if (invite.status === "granted") {
+      $("doneAthlete").textContent = invite.athleteName || "your athlete";
+      show("done"); return;
+    }
+    if (invite.status !== "pending") { show("notfound"); return; }
+
+    const name = invite.athleteName || "this athlete";
+    for (const id of ["athleteName", "athleteName2", "athleteName3", "athleteName4", "athleteNameV", "athleteNameV2"])
+      $(id).textContent = name;
+    $("ageGroup").textContent = invite.ageGroup || "";
+    $("ageGroupV").textContent = invite.ageGroup || "";
+
+    if (!verifiedEmail) { stepOne(auth); return; }
+    stepTwo(auth, ref, invite, verifiedEmail);
+  } catch (e) {
+    console.error(e);
+    show("notfound");
+  }
+}
+
+// ── Step 1: send the sign-in link ─────────────────────────────────────────
+function stepOne(auth) {
+  show("verify");
+  const input = $("vemail"), btn = $("sendLink");
+  const ok = () => btn.disabled = !(input.value.includes("@") && input.value.includes("."));
+  input.addEventListener("input", ok);
+  const send = async () => {
+    const email = input.value.trim();
+    btn.disabled = true; btn.textContent = "Sending…";
+    $("verr").classList.add("hidden");
+    try {
+      await sendSignInLinkToEmail(auth, email, { url: continueUrl(), handleCodeInApp: true });
+      try { localStorage.setItem(EMAIL_KEY, email); } catch (_) {}
+      $("sentTo").textContent = email;
+      show("sent");
+    } catch (e) {
+      $("verr").textContent = "Couldn't send the link — please check the address and try again. (" + e.message + ")";
+      $("verr").classList.remove("hidden");
+      btn.disabled = false; btn.textContent = "Send me the link";
+    }
+  };
+  btn.addEventListener("click", send);
+  $("resend").addEventListener("click", (ev) => { ev.preventDefault(); show("verify"); btn.disabled = false; btn.textContent = "Send me the link"; });
+}
+
+// ── Step 2: review + grant with a verified email session ──────────────────
+function stepTwo(auth, ref, invite, verifiedEmail) {
+  $("pemail").value = verifiedEmail;
+  show("form");
+  const ready = () =>
+    $("submit").disabled = !($("c1").checked && $("c2").checked &&
+      $("pname").value.trim() && $("prel").value);
+  for (const id of ["c1", "c2", "pname", "prel"]) {
+    $(id).addEventListener("input", ready);
+    $(id).addEventListener("change", ready);
+  }
+  $("submit").addEventListener("click", async () => {
+    $("submit").disabled = true; $("submit").textContent = "Recording…";
+    try {
+      await updateDoc(ref, {
+        status: "granted",
+        parentName: $("pname").value.trim(),
+        parentEmail: verifiedEmail,          // must equal the verified token email (rules)
+        parentEmailVerified: true,           // "email plus": control of the address was proven
+        grantorUid: auth.currentUser.uid,
+        relationship: $("prel").value,
+        grantedAt: serverTimestamp(),
+        grantedAtLocal: new Date().toISOString(),
+        grantedUserAgent: navigator.userAgent.slice(0, 256),
+        // Separate, optional consent (16 CFR 312.5(a)(2)). The app copies this
+        // onto the athlete profile as aiCoachingConsentAt when it reconciles
+        // the invite; false simply means Coach Jodi stays off for this athlete.
+        aiCoachingConsent: $("c3").checked,
+      });
+      $("doneAthlete").textContent = invite.athleteName || "your athlete";
+      show("done");
+    } catch (e) {
+      $("err").textContent = "Could not record consent — please try again. (" + e.message + ")";
+      $("err").classList.remove("hidden");
+      $("submit").disabled = false; $("submit").textContent = "I Consent";
+    }
+  });
+}
+main();
+</script>
+</body>
+</html>

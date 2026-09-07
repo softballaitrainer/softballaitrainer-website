@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Research — Softball AI Trainer</title>
+  <meta name="description" content="How Softball AI Trainer works: on-device pose detection and biomechanical scoring calibrated against peer-reviewed fastpitch softball research.">
+  <link rel="canonical" href="https://softballaitrainer.com/research.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=20260907">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://softballaitrainer.com/research.html">
+  <meta property="og:title" content="Built on Science — Softball AI Trainer">
+  <meta property="og:description" content="How we analyze pitching and hitting mechanics. Calibrated against peer-reviewed biomechanics research for youth fastpitch softball.">
+  <meta property="og:image" content="https://softballaitrainer.com/og-image.png">
+  <meta property="og:site_name" content="Softball AI Trainer">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Built on Science — Softball AI Trainer">
+  <meta name="twitter:description" content="How we analyze pitching and hitting mechanics. Calibrated against peer-reviewed biomechanics research.">
+  <meta name="twitter:image" content="https://softballaitrainer.com/og-image.png">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">Softball AI Trainer</a>
+      <nav>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <article class="legal">
+
+      <h1>Built on Science</h1>
+      <p class="effective-date">How Softball AI Trainer analyzes your mechanics</p>
+
+      <h2>Our Approach</h2>
+      <p>Softball AI Trainer uses <strong>Google ML Kit pose detection (MediaPipe)</strong> to extract 33 skeletal landmarks &mdash; including heel and foot position, critical for stride mechanics &mdash; from your video, entirely on your phone. We then apply biomechanical scoring algorithms. Our pitching thresholds are anchored to the published fastpitch kinematic studies cited below; our hitting thresholds come from established coaching standards, validated against our own recorded-swing dataset, because published youth softball hitting kinematics are limited.</p>
+      <p>All video processing happens on-device. Your video is never uploaded &mdash; the only images that leave your phone are analysis cards you explicitly choose to share.</p>
+
+      <h2>Hitting Analysis</h2>
+      <p>Our hitting analysis breaks down your swing into four phases: <strong>Load, Stride, Contact Zone, and Follow-Through</strong>. Each phase is scored using biomechanical metrics derived from pose keypoints:</p>
+      <ul>
+        <li><strong>Load</strong> — Hand position, back-knee bend, and weight distribution over the back foot</li>
+        <li><strong>Stride</strong> — How far the front foot travels from load to plant, normalized to body height, with age-group targets</li>
+        <li><strong>Contact Zone</strong> — Hip rotation angle at contact and back-arm elbow bend at contact</li>
+        <li><strong>Follow-Through</strong> — Finish height, wrist crossover, and hold balance</li>
+      </ul>
+      <p>Contact detection uses a custom-trained ball-detection neural network that tracks the ball through the contact window to identify the exact moment of impact, with pixel-level frame differencing as a fallback.</p>
+
+      <h2>Pitching Analysis</h2>
+      <p>Our pitching analysis evaluates four phases: <strong>Power Load, Stride, Release Zone, and Follow-Through</strong>:</p>
+      <ul>
+        <li><strong>Power Load</strong> — Trunk alignment and drive knee flexion at push-off</li>
+        <li><strong>Stride</strong> — Stride length as a percentage of body height, with age-adjusted targets</li>
+        <li><strong>Release Zone</strong> — Arm speed, hip lead angle, and release position</li>
+        <li><strong>Follow-Through</strong> — Balance and body control after release</li>
+      </ul>
+
+      <h2>Age-Appropriate Scoring</h2>
+      <p>Youth athletes are not small adults. Our scoring thresholds step up by age bracket (10U, 12U, 14U, 16U, 18U). Where published youth and collegiate kinematic data exist we anchor to them; the brackets in between are interpolated. A 10U pitcher is scored against a 75%-of-body-height stride target, not the ~95% expected of an 18U pitcher.</p>
+
+      <h2>Research References</h2>
+      <p>Our analysis algorithms are informed by the following peer-reviewed research:</p>
+      <ul>
+        <li>
+          <strong>Biomechanics of Fastpitch Softball Pitching (2025)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11969493/" target="_blank" rel="noopener">PMC11969493</a> — Comprehensive review of pitching biomechanics including kinematic chain analysis.
+        </li>
+        <li>
+          <strong>Youth vs Collegiate Pitcher Kinematics (2021)</strong><br>
+          <a href="https://pubmed.ncbi.nlm.nih.gov/34778481/" target="_blank" rel="noopener">PubMed 34778481</a> — Comparison of biomechanical parameters between youth and collegiate pitchers, informing our age-adjusted thresholds.
+        </li>
+        <li>
+          <strong>Pitching Mechanics in Female Youth Fastpitch Softball (2018)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6044599/" target="_blank" rel="noopener">PMC6044599</a> — Kinematic analysis of 23 youth windmill pitchers (mean age 11.4) and how trunk and pelvis mechanics relate to ball velocity.
+        </li>
+        <li>
+          <strong>A Three-Dimensional Kinematic and Kinetic Study of the College-Level Female Softball Swing (2014)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3918556/" target="_blank" rel="noopener">PMC3918556</a> — Motion-capture analysis of the swing in 14 college players; found that mechanical work applied to the bat is the dominant contributor to bat speed. Background reading; no shipped threshold is derived from it.
+        </li>
+        <li>
+          <strong>Relationship Between Stride Mechanics and Shoulder Distraction Force in Collegiate Softball Pitchers (2024)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11542118/" target="_blank" rel="noopener">PMC11542118</a> — Measured shoulder distraction force against stride length in 63 injury-free NCAA Division I pitchers, reporting that distraction force rose with stride length (stride length explained about 11% of the variation).
+        </li>
+      </ul>
+
+      <h2>Technology</h2>
+      <ul>
+        <li><strong>Pose Detection</strong> — Google ML Kit (MediaPipe Pose, 33 landmarks), running fully on-device</li>
+        <li><strong>Ball Detection</strong> — A custom-trained neural network for softball tracking (contact detection), running fully on-device</li>
+        <li><strong>AI Coaching</strong> — Anthropic (the company that makes Claude), receiving the athlete's age bracket, analysis scores, skeletal position measurements, and typed questions — never images, video, or the athlete's name (the App swaps the name for a placeholder before sending and restores it only on the device)</li>
+        <li><strong>Privacy</strong> — All video analysis is on-device. The App never uploads video or images.</li>
+      </ul>
+
+      <h2>Limitations</h2>
+      <p>Our analysis uses 2D pose estimation from a single camera angle. This provides reliable biomechanical insights but has inherent limitations compared to 3D motion capture systems:</p>
+      <ul>
+        <li>Arm speed is measured from 2D side-view video, so it understates true 3D wrist velocity by an amount that varies with camera angle. Our benchmarks are set against 2D measurements and are not comparable to radar or motion-capture values.</li>
+        <li>Accuracy depends on video quality, camera angle (side view recommended), and lighting conditions.</li>
+        <li>Pose models may have difficulty tracking small or fast-moving limbs, particularly for younger athletes.</li>
+      </ul>
+      <p>Softball AI Trainer is a training aid designed to supplement — not replace — qualified coaching.</p>
+      <p>Nothing in the App or on this page is medical advice. The App is not designed to diagnose, treat, or prevent any injury. The research cited above is listed because it informed our scoring targets, not as a claim that the App reduces injury risk.</p>
+
+    </article>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 BMD Labs LLC. All rights reserved.</span>
+      <div>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:support@softballaitrainer.com">Contact</a>
+        <a href="https://www.facebook.com/softballaitrainer" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/softballaitrainer" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@softballaitrainer" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

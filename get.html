@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get the App — Softball AI Trainer</title>
+  <meta name="description" content="Get Softball AI Trainer — AI pitching and hitting analysis for fastpitch softball, on your phone. No sensors — your video never leaves your device.">
+  <link rel="canonical" href="https://softballaitrainer.com/get.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=20260907">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://softballaitrainer.com/get.html">
+  <meta property="og:title" content="Get Softball AI Trainer">
+  <meta property="og:description" content="AI pitching and hitting analysis for fastpitch softball, on your phone. No sensors — your video never leaves your device.">
+  <meta property="og:image" content="https://softballaitrainer.com/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Softball AI Trainer">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://softballaitrainer.com/get.html">
+  <meta name="twitter:title" content="Get Softball AI Trainer">
+  <meta name="twitter:description" content="AI pitching and hitting analysis for fastpitch softball, on your phone. No sensors — your video never leaves your device.">
+  <meta name="twitter:image" content="https://softballaitrainer.com/og-image.png">
+
+  <script>
+    // ── Smart install link ──────────────────────────────────────────────
+    // This page is the ONE link the app puts in every share and the one in
+    // every social bio. At launch, set PLAY_URL (and later APP_STORE_URL);
+    // phones are sent straight to their store, desktop sees the page.
+    // Until then it stays empty and the page is the early-access signup.
+    var PLAY_URL = '';       // e.g. 'https://play.google.com/store/apps/details?id=com.softballaitrainer.app'
+    var APP_STORE_URL = '';  // iOS (date TBD)
+    (function () {
+      var ua = navigator.userAgent || '';
+      if (PLAY_URL && /Android/i.test(ua)) { location.replace(PLAY_URL); }
+      else if (APP_STORE_URL && /iPhone|iPad|iPod/i.test(ua)) { location.replace(APP_STORE_URL); }
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">Softball AI Trainer</a>
+      <nav>
+        <a href="/coaches.html">Coaches</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Get Softball AI Trainer</h1>
+      <p class="tagline">AI pitching &amp; hitting analysis for fastpitch softball. Just your phone.</p>
+      <p class="description">
+        Record a swing or a pitch, get a scored breakdown of the mechanics in about a minute,
+        plus personalized coaching from Coach Jodi &mdash; calibrated for 10U through 18U+.
+        Video never leaves the phone.
+      </p>
+      <div class="cta-group">
+        <a href="#signup" class="btn btn-green" id="store-cta">Get Early Access</a>
+      </div>
+      <p class="launch-note" id="store-note">Coming soon to Google Play &middot; iOS to follow</p>
+    </div>
+  </section>
+
+  <section class="signup" id="signup">
+    <div class="container">
+      <h2>Be first when it launches</h2>
+      <p>Parents and coaches: leave your email and we&rsquo;ll let you know the day Softball AI Trainer is on Google Play.</p>
+      <form class="signup-form" action="https://formspree.io/f/moeqejey" method="POST">
+        <input type="email" name="email" placeholder="Your email address" aria-label="Email address" required>
+        <input type="hidden" name="source" value="get-page">
+        <input type="hidden" name="ref" id="ref-field" value="">
+        <input type="hidden" name="_subject" value="New waitlist signup — Get page">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               aria-hidden="true" style="display:none">
+        <button type="submit">Notify Me</button>
+      </form>
+        <p class="timeline-note">We&rsquo;ll only use your email to tell you when the app launches — nothing else. See our <a href="/privacy.html">Privacy Policy</a>.</p>
+      <p class="timeline-note">
+        Free tier at launch. Player plan $6.99/month (up to 2 athlete profiles). <a href="/">Learn more about the app</a>.
+      </p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 BMD Labs LLC. All rights reserved.</span>
+      <div>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:support@softballaitrainer.com">Contact</a>
+        <a href="https://www.facebook.com/softballaitrainer" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/softballaitrainer" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@softballaitrainer" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Share attribution: ?ref=share (app shares) / ?ref=ig etc. (bios) rides
+    // along into the signup so we can see which channel brought people.
+    (function () {
+      var ref = new URLSearchParams(location.search).get('ref') || '';
+      var f = document.getElementById('ref-field');
+      if (f) f.value = ref.slice(0, 40);
+      // At launch (PLAY_URL set), desktop visitors get a real store button.
+      if (PLAY_URL) {
+        var cta = document.getElementById('store-cta');
+        cta.href = PLAY_URL; cta.textContent = 'Get it on Google Play';
+        document.getElementById('store-note').textContent = 'Free to download · iOS to follow';
+      }
+    })();
+  </script>
+
+</body>
+</html>
