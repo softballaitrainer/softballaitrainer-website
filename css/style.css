@@ -751,3 +751,9 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 .comparison-table .check { color: #00893E; }
 .comparison-table .cross { color: #6B7280; }
 .screenshot-placeholder { color: #5B6472; }
+
+/* Inline waitlist submit states (AJAX, no redirect off-site) */
+.form-success { color: #00E676; font-size: 17px; font-weight: 600;
+                margin: 10px 0; text-align: center; width: 100%; }
+.form-error { color: #ff9f9f; font-size: 14px; margin: 8px 0 0;
+              width: 100%; text-align: center; }

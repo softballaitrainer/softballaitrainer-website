@@ -386,5 +386,32 @@
     </div>
   </footer>
 
+
+<script>
+  document.querySelectorAll('form[action*="formspree"]').forEach(function (f) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var btn = f.querySelector('button');
+      var old = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Joining…'; }
+      fetch(f.action, { method: 'POST', body: new FormData(f),
+                        headers: { 'Accept': 'application/json' } })
+        .then(function (r) {
+          if (!r.ok) throw new Error('bad status');
+          f.innerHTML = '<p class="form-success">🥎 You’re on the list! We’ll email you when the app launches.</p>';
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = old; }
+          var err = f.querySelector('.form-error');
+          if (!err) {
+            err = document.createElement('p');
+            err.className = 'form-error';
+            f.appendChild(err);
+          }
+          err.textContent = 'Something went wrong — please try again, or email support@softballaitrainer.com.';
+        });
+    });
+  });
+</script>
 </body>
 </html>
