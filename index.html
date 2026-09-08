@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Softball AI Trainer — Fastpitch Pitching &amp; Hitting Video Analysis App</title>
+  <meta name="description" content="AI video analysis for fastpitch softball pitching and hitting mechanics. Personalized coaching from Coach Jodi. Works with just your phone camera.">
+  <link rel="canonical" href="https://softballaitrainer.com/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="stylesheet" href="css/style.css?v=20260907">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://softballaitrainer.com/">
+  <meta property="og:title" content="Softball AI Trainer — AI-Powered Softball Training">
+  <meta property="og:description" content="AI video analysis for fastpitch pitching and hitting. Coach Jodi gives personalized feedback. Direct signup for ages 13+; parents can create accounts for younger athletes (10U–12U).">
+  <meta property="og:image" content="https://softballaitrainer.com/og-image.png?v=4">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Softball AI Trainer">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://softballaitrainer.com/">
+  <meta name="twitter:title" content="Softball AI Trainer — AI-Powered Softball Training">
+  <meta name="twitter:description" content="AI video analysis for fastpitch pitching and hitting. Coach Jodi gives personalized feedback. Direct signup for ages 13+; parents can create accounts for younger athletes (10U–12U).">
+  <meta name="twitter:image" content="https://softballaitrainer.com/og-image.png?v=4">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "BMD Labs LLC",
+        "url": "https://softballaitrainer.com/",
+        "email": "support@softballaitrainer.com",
+        "telephone": "+1-937-350-1486",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "6545 Market Ave N, Ste 100",
+          "addressLocality": "Canton",
+          "addressRegion": "OH",
+          "postalCode": "44721",
+          "addressCountry": "US"
+        },
+        "sameAs": [
+          "https://www.facebook.com/softballaitrainer",
+          "https://www.instagram.com/softballaitrainer",
+          "https://www.tiktok.com/@softballaitrainer"
+        ]
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Softball AI Trainer",
+        "operatingSystem": "Android",
+        "applicationCategory": "SportsApplication",
+        "description": "AI video analysis for fastpitch softball pitching and hitting mechanics. On-device processing — video never leaves the phone. Age-calibrated scoring for 10U through 18U+.",
+        "offers": [
+          { "@type": "Offer", "price": "0", "priceCurrency": "USD", "description": "Free tier" },
+          { "@type": "Offer", "price": "6.99", "priceCurrency": "USD", "description": "Player plan, monthly" },
+          { "@type": "Offer", "price": "59.99", "priceCurrency": "USD", "description": "Player plan, annual" },
+          { "@type": "Offer", "price": "24.99", "priceCurrency": "USD", "description": "Coach plan, monthly" },
+          { "@type": "Offer", "price": "199.99", "priceCurrency": "USD", "description": "Coach plan, annual" }
+        ],
+        "publisher": { "@type": "Organization", "name": "BMD Labs LLC" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Do I need special equipment?", "acceptedAnswer": { "@type": "Answer", "text": "Just your phone. No wearables, no sensors, no extra gear." } },
+          { "@type": "Question", "name": "What age groups does it work for?", "acceptedAnswer": { "@type": "Answer", "text": "10U through 18U+. Scoring is calibrated for each age bracket, so a 10U pitcher isn't measured against 18U standards." } },
+          { "@type": "Question", "name": "How do younger players (under 13) sign up?", "acceptedAnswer": { "@type": "Answer", "text": "Direct account signup is for ages 13 and up. For younger athletes, a parent or guardian creates an account and adds the child as an athlete profile through a parental consent flow designed to meet COPPA's verifiable-consent requirements." } },
+          { "@type": "Question", "name": "Is my child's video private?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. All video analysis happens on your device — the app never uploads your video or photos. AI coaching uses your athlete's age bracket, scores, skeletal position data, and the questions you type — never images or video, and never your athlete's name (the app swaps it for a placeholder before anything leaves the phone). The only images that leave your phone are analysis cards you choose to share yourself." } },
+          { "@type": "Question", "name": "Is Coach Jodi safe for young athletes?", "acceptedAnswer": { "@type": "Answer", "text": "Coach Jodi is an AI coach and is labeled as one in the app. It runs behind a fixed safety prompt that keeps replies about softball and age-appropriate, defers health questions to a doctor or athletic trainer, and points anyone in distress to a trusted adult (and to 988 in the US). Every reply carries a Report flag that we review. Athletes are asked not to share personal details, the app never sends your athlete's name to the AI provider, under-13 athletes can only use Coach Jodi after a parent consents, and AI coaching can be turned off at any time in Settings." } },
+          { "@type": "Question", "name": "Does it work for left-handed athletes?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Set your athlete's throwing and batting hand once, and every analysis scores accordingly." } },
+          { "@type": "Question", "name": "How is this different from other video analysis apps?", "acceptedAnswer": { "@type": "Answer", "text": "Built specifically for fastpitch softball, with age-calibrated scoring and AI coaching personalized to your mechanics." } },
+          { "@type": "Question", "name": "Does it work without internet?", "acceptedAnswer": { "@type": "Answer", "text": "Video analysis runs entirely on your phone, so you can record and analyze at any field with no signal. Internet is only needed for AI coaching feedback and account sync." } },
+          { "@type": "Question", "name": "What's included in the free tier?", "acceptedAnswer": { "@type": "Answer", "text": "The free tier currently includes 12 video analyses per week, 3 Coach Jodi questions per day, your last 10 saved sessions, and 1 athlete profile. The Player plan raises that to unlimited analyses and up to 2 athlete profiles; the Coach plan covers up to 15 athletes." } },
+          { "@type": "Question", "name": "What phones does it support?", "acceptedAnswer": { "@type": "Answer", "text": "Android at launch (Google Play), with iOS to follow. Any modern Android phone works — newer phones simply analyze faster." } },
+          { "@type": "Question", "name": "How accurate is the analysis?", "acceptedAnswer": { "@type": "Answer", "text": "Scoring is built on pose detection plus biomechanical metrics anchored to peer-reviewed fastpitch pitching research and established coaching standards, with age-specific targets. Accuracy depends on video quality and camera angle; methods and limitations are published on the research page." } }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="logo">Softball AI Trainer</a>
+      <nav>
+        <a href="/coaches.html">Coaches</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Softball AI Trainer</h1>
+      <p class="tagline">Research-backed pitching &amp; hitting analysis. No sensors. Your video never leaves your phone.</p>
+      <p class="humanizing">Built by a softball parent, for softball families.</p>
+      <p class="description">
+        Analyze your pitching and hitting mechanics with AI video analysis.
+        Get personalized coaching from Coach Jodi, track your progress over time,
+        and improve your game — all with just your phone camera.
+      </p>
+      <div class="cta-group">
+        <a href="#signup" class="btn btn-green">Get Early Access</a>
+      </div>
+      <p class="pricing-line">Free tier at launch. Player plan: $6.99/month or $59.99/year (up to 2 athlete profiles).</p>
+      <p class="launch-note">Coming soon to Google Play</p>
+      <div class="hero-badges">
+        <span class="hero-badge"><span aria-hidden="true">&#128274;</span> Parental consent required for under-13 athletes &middot; Video never leaves your phone</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="container">
+      <h2>Train Smarter, Play Better</h2>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#127909;</span>
+          <h3>Video Analysis</h3>
+          <p>Record or upload a video and get a scored biomechanical analysis of your pitching or hitting form in about a minute, using AI pose detection.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#129351;</span>
+          <h3>AI Coaching</h3>
+          <p>Coach Jodi gives you personalized, data-driven feedback on your mechanics and recommends drills to fix your weakest areas.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#128200;</span>
+          <h3>Progress Tracking</h3>
+          <p>Track scores across every phase of your swing or pitch. See personal bests, trends, and improvements over time.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#129358;</span>
+          <h3>Works for All Ages</h3>
+          <p>Age-adjusted scoring and coaching for 10U through 18U+ athletes. Calibrated for youth mechanics, not adult benchmarks.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#128293;</span>
+          <h3>Streaks, Badges &amp; Challenges</h3>
+          <p>Daily practice streaks, weekly challenges, and milestone badges make steady training rewarding &mdash; motivation built in, no nagging required.</p>
+        </div>
+
+        <div class="feature-card">
+          <span class="icon" aria-hidden="true">&#127967;</span>
+          <h3>Works at Any Field</h3>
+          <p>Analysis runs entirely on your phone, so it works with no cell signal. Internet is only needed for Coach Jodi feedback and account sync.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="privacy-promise">
+    <div class="container">
+      <div class="about-card">
+        <h2>Your kid&rsquo;s video never leaves the phone</h2>
+        <p>Every frame of practice video is analyzed on the device itself &mdash; the app never uploads your video or photos to any server. What reaches our AI coach is the athlete&rsquo;s age bracket, scores, skeletal position data, and the questions you type: numbers and text &mdash; never images, and never the athlete&rsquo;s name (the app swaps it for a placeholder before anything leaves the phone). The only images that ever leave your phone are analysis cards you choose to share yourself. <a href="/privacy.html">Read the full privacy policy</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="comparison" id="compare">
+    <div class="container">
+      <h2>What You Get</h2>
+      <p class="section-intro">No extra hardware, real AI coaching, and scoring calibrated for youth fastpitch &mdash; here is what that means in practice.</p>
+
+      <div class="comparison-table-wrap">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Feature</span></th>
+              <th scope="col" class="us">Softball AI Trainer</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Softball-specific</th>
+              <td class="us"><span class="check">&#10003;</span> Built for fastpitch, not adapted from another sport</td>
+            </tr>
+            <tr>
+              <th scope="row">Age-calibrated scoring</th>
+              <td class="us"><span class="check">&#10003;</span> 10U through 18U+</td>
+            </tr>
+            <tr>
+              <th scope="row">AI coaching feedback</th>
+              <td class="us"><span class="check">&#10003;</span> Coach Jodi, after every analysis</td>
+            </tr>
+            <tr>
+              <th scope="row">Equipment needed</th>
+              <td class="us"><span class="check">&#10003;</span> Just your phone &mdash; no sensors, no bat attachment</td>
+            </tr>
+            <tr>
+              <th scope="row">Pitching and hitting</th>
+              <td class="us"><span class="check">&#10003;</span> Windmill mechanics and swing mechanics</td>
+            </tr>
+            <tr>
+              <th scope="row">Privacy</th>
+              <td class="us"><span class="check">&#10003;</span> Video is analyzed on your phone and never uploaded</td>
+            </tr>
+            <tr>
+              <th scope="row">Starting price</th>
+              <td class="us">Free tier, then $6.99/mo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cta-group" style="text-align:center; margin-top: 24px;">
+        <a href="#signup" class="btn btn-green">Get Early Access</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="coach-callout" id="coaches">
+    <div class="container">
+      <div class="coach-card">
+        <div class="coach-card-content">
+          <h2>Coaching a team?</h2>
+          <p>Softball AI Trainer for Coaches lets you track your entire roster, see drill recommendations for each athlete, and get team-wide insights. One coach covers up to 15 athletes.</p>
+          <p class="coach-contact">Questions about the Coach plan? <a href="mailto:support@softballaitrainer.com">support@softballaitrainer.com</a></p>
+        </div>
+        <a href="/coaches.html" class="btn btn-green">Learn More</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="screenshots" id="screenshots">
+    <div class="container">
+      <h2>See It in Action</h2>
+      <div class="screenshots-grid">
+
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="screenshots/pitching-analysis.webp?v=20260907b" width="560" height="1244" loading="lazy" decoding="async" alt="14U pitching analysis with phase scores, raw measurements, and skeletal keyframes" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">Screenshot Coming Soon</div>
+          </div>
+          <p class="screenshot-caption">Pitching Analysis</p>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="screenshots/coach-jodi.webp?v=20260907" width="560" height="1244" loading="lazy" decoding="async" alt="Analysis keyframes with skeletal overlays above Coach Jodi's AI feedback" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">Screenshot Coming Soon</div>
+          </div>
+          <p class="screenshot-caption">Coach Jodi AI</p>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="screenshots/progress.webp?v=20260907b" width="560" height="1244" loading="lazy" decoding="async" alt="Progress dashboard with pitching and hitting score charts" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">Screenshot Coming Soon</div>
+          </div>
+          <p class="screenshot-caption">Progress Tracking</p>
+        </div>
+
+        <div class="screenshot-card">
+          <div class="screenshot-frame">
+            <img src="screenshots/share-card.webp?v=20260907b" width="560" height="1244" loading="lazy" decoding="async" alt="Share sheet with a branded results card and a name privacy toggle" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+            <div class="screenshot-placeholder">Screenshot Coming Soon</div>
+          </div>
+          <p class="screenshot-caption">Share-Ready Results</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="about-card">
+        <h2>About</h2>
+        <p>Softball AI Trainer was built by a softball parent who wanted objective, encouraging feedback on every rep his daughter took between lessons and practices. It's not a replacement for great coaching &mdash; it's another tool in the toolbox: biomechanical analysis on every recorded pitch and swing (<a href="/research.html">see the research behind it</a>), age-calibrated scores you can track over a season, and drill suggestions targeted at what the numbers actually show. Bring the trends to your coach and make lesson time count.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq">
+    <div class="container">
+      <h2>Frequently Asked Questions</h2>
+      <div class="faq-list">
+
+        <details class="faq-item">
+          <summary>Do I need special equipment?</summary>
+          <p>Just your phone. No wearables, no sensors, no extra gear.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What age groups does it work for?</summary>
+          <p>10U through 18U+. Scoring is calibrated for each age bracket, so a 10U pitcher isn't measured against 18U standards.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How do younger players (under 13) sign up?</summary>
+          <p>Direct account signup is for ages 13 and up. For younger athletes, a parent or guardian creates an account and adds the child as an athlete profile through a parental consent flow designed to meet COPPA's verifiable-consent requirements. A parent can manage 1 athlete on the free tier, up to 2 on the Player plan.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is my child's video private?</summary>
+          <p>Yes. All video analysis happens on your device &mdash; the app never uploads your video or photos. AI coaching uses your athlete's age bracket, scores, skeletal position data, and the questions you type &mdash; never images or video, and never your athlete's name (the app swaps it for a placeholder before anything leaves the phone). The only images that leave your phone are analysis cards you choose to share yourself. See our <a href="/privacy.html">Privacy Policy</a> for the full details.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Is Coach Jodi safe for young athletes?</summary>
+          <p>Coach Jodi is an AI coach and is labeled as one in the app. It runs behind a fixed safety prompt that keeps replies about softball and age-appropriate, defers health questions to a doctor or athletic trainer, and points anyone in distress to a trusted adult (and to 988 in the US). Every reply carries a Report flag that we review. Athletes are asked not to share personal details, the app never sends your athlete's name to the AI provider, under-13 athletes can only use Coach Jodi after a parent consents, and AI coaching can be turned off at any time in Settings.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Does it work for left-handed athletes?</summary>
+          <p>Yes. Set your athlete's throwing and batting hand once, and every analysis scores accordingly &mdash; left-handed mechanics are first-class, not mirrored afterthoughts.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How is this different from other video analysis apps?</summary>
+          <p>Built specifically for fastpitch softball, with age-calibrated scoring and AI coaching personalized to your mechanics.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>Does it work without internet?</summary>
+          <p>Video analysis runs entirely on your phone, so you can record and analyze at any field with no signal. An internet connection is only needed for Coach Jodi's AI feedback and syncing your account.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What&rsquo;s included in the free tier?</summary>
+          <p>The free tier currently includes 12 video analyses per week, 3 Coach Jodi questions per day, your last 10 saved sessions, and 1 athlete profile. The Player plan raises that to unlimited analyses and up to 2 athlete profiles; the Coach plan covers up to 15 athletes.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>What phones does it support?</summary>
+          <p>Android at launch (Google Play), with iOS to follow. Any modern Android phone works &mdash; newer phones simply analyze faster.</p>
+        </details>
+
+        <details class="faq-item">
+          <summary>How accurate is the analysis?</summary>
+          <p>Scoring is built on pose detection plus biomechanical metrics anchored to peer-reviewed fastpitch pitching research and established coaching standards, with age-specific targets. It&rsquo;s a training aid, not a lab: accuracy depends on video quality and camera angle, and we publish our methods and limitations openly on the <a href="/research.html">research page</a>.</p>
+        </details>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="signup" id="signup">
+    <div class="container">
+      <h2>Get Early Access</h2>
+      <p>Parents and coaches: leave your email and we&rsquo;ll tell you when Softball AI Trainer launches on Google Play.</p>
+      <form class="signup-form" action="https://formspree.io/f/moeqejey" method="POST">
+        <input type="email" name="email" placeholder="Your email address" aria-label="Email address" required>
+        <input type="hidden" name="source" value="player-landing">
+        <input type="hidden" name="_subject" value="New waitlist signup — Player">
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+               aria-hidden="true" style="display:none">
+        <button type="submit">Notify Me</button>
+      </form>
+        <p class="timeline-note">We&rsquo;ll only use your email to tell you when the app launches — nothing else. See our <a href="/privacy.html">Privacy Policy</a>.</p>
+      <p class="timeline-note">
+        Launching soon on Google Play. iOS to follow.
+      </p>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; 2026 BMD Labs LLC. All rights reserved.</span>
+      <div>
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:support@softballaitrainer.com">Contact</a>
+        <a href="https://www.facebook.com/softballaitrainer" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/softballaitrainer" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@softballaitrainer" target="_blank" rel="noopener">TikTok</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
