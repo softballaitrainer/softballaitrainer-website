@@ -71,6 +71,25 @@
     </div>
   </section>
 
+  <section class="signup" id="review-sample" hidden>
+    <div class="container">
+      <h2>Sample analysis (for app review)</h2>
+      <p class="timeline-note" style="margin-bottom:18px">Real, unedited output
+        from the app: a 14U pitching analysis (phase scores, raw measurements,
+        skeletal keyframes) and Coach Jodi's AI coaching response on a 10U
+        hitting session. Athletes appear with signed parental releases; the
+        names shown are fictional.</p>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:600px;margin:0 auto">
+        <img src="screenshots/pitching-analysis.webp?v=20260907b" width="560" height="1244"
+             style="width:100%;height:auto;border-radius:12px" loading="lazy"
+             alt="Sample 14U pitching analysis with scores, measurements, and keyframes">
+        <img src="screenshots/coach-jodi.webp?v=20260907" width="560" height="1244"
+             style="width:100%;height:auto;border-radius:12px" loading="lazy"
+             alt="Sample Coach Jodi AI coaching response on a hitting analysis">
+      </div>
+    </div>
+  </section>
+
   <section class="signup" id="signup">
     <div class="container">
       <h2>Be first when it launches</h2>
@@ -112,6 +131,11 @@
       var ref = new URLSearchParams(location.search).get('ref') || '';
       var f = document.getElementById('ref-field');
       if (f) f.value = ref.slice(0, 40);
+      // Play-review reviewers land here via get.html?ref=review (G5).
+      if (ref === 'review') {
+        var rs = document.getElementById('review-sample');
+        if (rs) rs.hidden = false;
+      }
       // At launch (PLAY_URL set), desktop visitors get a real store button.
       if (PLAY_URL) {
         var cta = document.getElementById('store-cta');
