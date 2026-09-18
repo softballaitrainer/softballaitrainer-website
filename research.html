@@ -45,7 +45,7 @@
       <p class="effective-date">How Softball AI Trainer analyzes your mechanics</p>
 
       <h2>Our Approach</h2>
-      <p>Softball AI Trainer uses <strong>Google ML Kit pose detection (MediaPipe)</strong> to extract 33 skeletal landmarks &mdash; including heel and foot position, critical for stride mechanics &mdash; from your video, entirely on your phone. We then apply biomechanical scoring algorithms. Our pitching thresholds are anchored to the published fastpitch kinematic studies cited below; our hitting thresholds come from established coaching standards, validated against our own recorded-swing dataset, because published youth softball hitting kinematics are limited.</p>
+      <p>Softball AI Trainer uses <strong>Google ML Kit pose detection (MediaPipe)</strong> to extract 33 skeletal landmarks &mdash; including heel and foot position, critical for stride mechanics &mdash; from your video, entirely on your phone. We then apply biomechanical scoring algorithms. Our pitching thresholds are anchored to the published fastpitch kinematic studies cited below. Our hitting checkpoints are coaching-standard swing markers; where they overlap with the collegiate softball swing research cited below &mdash; hip and trunk rotation through contact and the finish &mdash; that research informed what we measure, and the trunk-rotation power literature supports the weight we give rotation. Because published youth softball hitting kinematics are limited, our youth hitting targets are calibrated against our own recorded-swing dataset rather than taken from collegiate values.</p>
       <p>All video processing happens on-device. Your video is never uploaded &mdash; the only images that leave your phone are analysis cards you explicitly choose to share.</p>
 
       <h2>Hitting Analysis</h2>
@@ -68,30 +68,30 @@
       </ul>
 
       <h2>Age-Appropriate Scoring</h2>
-      <p>Youth athletes are not small adults. Our scoring thresholds step up by age bracket (10U, 12U, 14U, 16U, 18U). Where published youth and collegiate kinematic data exist we anchor to them; the brackets in between are interpolated. A 10U pitcher is scored against a 75%-of-body-height stride target, not the ~95% expected of an 18U pitcher.</p>
+      <p>Youth athletes are not small adults. Our scoring thresholds step up by age bracket (10U, 12U, 14U, 16U, 18U). Where published youth and collegiate values exist we anchor to them: the Power Load drive-knee target runs from the published youth mean (about 25&deg;, measured at ages 12&ndash;15) at 12U to the collegiate mean (about 38&deg;) at 18U, with 14U and 16U interpolated and 10U extrapolated below the youngest measured group. Where the literature is mixed &mdash; published mean stride length runs from about 61% of body height in 9-to-13-year-olds to about 89% in older youth and collegiate pitchers, with no difference in the one direct youth-versus-collegiate comparison &mdash; the age steps are coaching judgment, set as goals above typical values rather than as population averages: a 10U pitcher earns full stride credit at 75% of body height, 12U at 85%, and 14U and older at 95%. A long stride is never penalized, and a shorter stride is scored down gradually rather than failed.</p>
 
       <h2>Research References</h2>
-      <p>Our analysis algorithms are informed by the following peer-reviewed research:</p>
+      <p>Our scoring targets and Coach Jodi&rsquo;s drill rationale draw on the following peer-reviewed research. Where a paper is background reading rather than the source of a shipped threshold, the note says so.</p>
       <ul>
         <li>
-          <strong>Biomechanics of Fastpitch Softball Pitching (2025)</strong><br>
-          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11969493/" target="_blank" rel="noopener">PMC11969493</a> — Comprehensive review of pitching biomechanics including kinematic chain analysis.
+          <strong>Biomechanics of Fastpitch Softball Pitching: A Practitioner&rsquo;s Guide (2025)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11969493/" target="_blank" rel="noopener">PMC11969493</a> &mdash; Friesen et al., <em>Sports Health</em>. Clinical review of the four windmill-pitch phases, proximal-to-distal kinetic-chain energy flow, and published youth vs. collegiate normative values for stride length and trunk rotation. Informs our decision not to penalize long strides (youth stride at foot contact averages 89% &plusmn; 13% of body height) and Coach Jodi&rsquo;s proximal-to-distal sequencing cue and Power Load / Release Zone drill rationale. A review; it reports no original sample.
         </li>
         <li>
-          <strong>Youth vs Collegiate Pitcher Kinematics (2021)</strong><br>
-          <a href="https://pubmed.ncbi.nlm.nih.gov/34778481/" target="_blank" rel="noopener">PubMed 34778481</a> — Comparison of biomechanical parameters between youth and collegiate pitchers, informing our age-adjusted thresholds.
+          <strong>Differences in Lower Extremity Kinematics Between Collegiate and Youth Softball Pitchers (2021)</strong><br>
+          <a href="https://pubmed.ncbi.nlm.nih.gov/34778481/" target="_blank" rel="noopener">PubMed 34778481</a> &mdash; Downs Talmage et al., <em>Orthopaedic Journal of Sports Medicine</em>. Motion-capture comparison of 40 youth (mean age 13.7) and 43 collegiate pitchers. Collegiate pitchers showed greater drive-knee flexion at the top of the arm circle (about 38&deg; vs. 25&deg;); stride length as a percentage of height did not differ between the groups. The two knee-flexion means anchor our 12U and 18U Power Load drive-knee targets; 14U and 16U are interpolated between them and 10U is extrapolated below the youth data.
         </li>
         <li>
           <strong>Pitching Mechanics in Female Youth Fastpitch Softball (2018)</strong><br>
-          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6044599/" target="_blank" rel="noopener">PMC6044599</a> — Kinematic analysis of 23 youth windmill pitchers (mean age 11.4) and how trunk and pelvis mechanics relate to ball velocity.
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6044599/" target="_blank" rel="noopener">PMC6044599</a> &mdash; Oliver et al., <em>International Journal of Sports Physical Therapy</em>. Electromagnetic motion-capture study of 23 Little League pitchers (ages 9&ndash;13, mean 11.4). Only trunk kinematics correlated with ball velocity &mdash; greater trunk flexion at every pitching event and more trunk rotation toward the throwing arm at the top of the backswing; pelvis, shoulder, elbow, and stride-length measures did not. It also reports a mean youth stride of 61% &plusmn; 9% of body height. Our youth reference for the stride-length and trunk-position variables the Stride and Power Load phases measure; no shipped threshold is taken directly from it.
         </li>
         <li>
-          <strong>A Three-Dimensional Kinematic and Kinetic Study of the College-Level Female Softball Swing (2014)</strong><br>
-          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3918556/" target="_blank" rel="noopener">PMC3918556</a> — Motion-capture analysis of the swing in 14 college players; found that mechanical work applied to the bat is the dominant contributor to bat speed. Background reading; no shipped threshold is derived from it.
+          <strong>Kinematic Differences Between Hitting Off a Tee Versus Front Toss in Collegiate Softball Players (2018)</strong><br>
+          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7857448/" target="_blank" rel="noopener">PMC7857448</a> &mdash; Washington &amp; Oliver, <em>International Biomechanics</em>. 22 NCAA Division I players; compared with tee work, front toss produced greater lead-knee flexion at foot contact and greater trunk rotation at ball contact, while tee swings showed more pelvis and trunk rotation at follow-through. Informs the hip-rotation-through-contact and finish-rotation variables we score and Coach Jodi&rsquo;s tee-versus-toss drill rationale. Its 3-D angles use a different reference than our 2-D side view, so no numeric target is taken from it.
         </li>
         <li>
-          <strong>Relationship Between Stride Mechanics and Shoulder Distraction Force in Collegiate Softball Pitchers (2024)</strong><br>
-          <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11542118/" target="_blank" rel="noopener">PMC11542118</a> — Measured shoulder distraction force against stride length in 63 injury-free NCAA Division I pitchers, reporting that distraction force rose with stride length (stride length explained about 11% of the variation).
+          <strong>Sport-Specific Differences in Power&ndash;Velocity&ndash;Force Profiling During Trunk Rotations at Different Loads (2020)</strong><br>
+          <a href="https://doi.org/10.3390/app10238366" target="_blank" rel="noopener">doi:10.3390/app10238366</a> &mdash; Zemkov&aacute;, Po&oacute;r &amp; Jele&nacute;, <em>Applied Sciences</em>. Trunk-rotation power profiling across rotational-sport athletes; supports the weight we give hip rotation in Contact Zone and Follow-Through scoring and in Coach Jodi&rsquo;s rotational-power drills. Not softball-specific and no numeric threshold is taken from it.
         </li>
       </ul>
 
@@ -109,9 +109,11 @@
         <li>Arm speed is measured from 2D side-view video, so it understates true 3D wrist velocity by an amount that varies with camera angle. Our benchmarks are set against 2D measurements and are not comparable to radar or motion-capture values.</li>
         <li>Accuracy depends on video quality, camera angle (side view recommended), and lighting conditions.</li>
         <li>Pose models may have difficulty tracking small or fast-moving limbs, particularly for younger athletes.</li>
+        <li>The App&rsquo;s pitching stride score rewards a stride at or above the age target and never penalizes a longer one. In collegiate pitchers, shoulder distraction force has been found to rise modestly with stride length (Oliver, Yanagita &amp; Bordelon, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11542118/" target="_blank" rel="noopener"><em>Orthop J Sports Med</em> 2024</a>, 63 NCAA Division I pitchers; stride length explained about 11% of the variation), so whether an unusually long stride suits a particular pitcher is a judgment for the pitcher&rsquo;s coach, not the App.</li>
+        <li>The App does not measure bat speed or the force, work, and power a hitter applies to the bat. Those require an instrumented bat or 3-D motion capture (see Milanovich &amp; Nesbit, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC3918556/" target="_blank" rel="noopener"><em>J Sports Sci Med</em> 2014</a>, 14 collegiate hitters swinging off a tee), and no hitting score in the App is derived from them.</li>
       </ul>
       <p>Softball AI Trainer is a training aid designed to supplement — not replace — qualified coaching.</p>
-      <p>Nothing in the App or on this page is medical advice. The App is not designed to diagnose, treat, or prevent any injury. The research cited above is listed because it informed our scoring targets, not as a claim that the App reduces injury risk.</p>
+      <p>Nothing in the App or on this page is medical advice. The App is not designed to diagnose, treat, or prevent any injury. The research cited above is listed because it informed our scoring targets or our understanding of the mechanics we measure, not as a claim that the App reduces injury risk.</p>
 
     </article>
   </main>
