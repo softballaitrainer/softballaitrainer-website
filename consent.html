@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Parental Consent — Softball AI Trainer</title>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260907">
+  <link rel="stylesheet" href="css/style.css?v=20260918">
   <meta name="robots" content="noindex">
   <!--
     Parental consent page for the coach → parent consent invite flow (COPPA).
@@ -39,9 +39,9 @@
     .consent-card ul { color: var(--gray-text); font-size: 14.5px; padding-left: 20px; margin-bottom: 8px; }
     .consent-card label { display: block; font-size: 13px; font-weight: 600; margin: 16px 0 4px; }
     .consent-card input[type=text], .consent-card input[type=email], .consent-card select {
-      width: 100%; padding: 10px 12px; font-size: 15px; border: 1px solid var(--subtle-border);
+      width: 100%; padding: 10px 12px; font-size: 16px; border: 1px solid var(--subtle-border);
       border-radius: 8px; background: var(--white); font-family: inherit; }
-    .consent-card input[readonly] { background: #F3F4F6; color: var(--gray-text); }
+    .consent-card input[readonly] { background: #F3F4F6; color: #4B5563; }
     .check { display: flex; gap: 10px; align-items: flex-start; margin: 14px 0; font-size: 14.5px; }
     .check input { width: 20px; height: 20px; margin-top: 2px; flex: none; }
     .consent-btn { width: 100%; margin-top: 18px; padding: 14px; font-size: 16px; font-weight: 700;
@@ -80,7 +80,7 @@
     </div>
 
     <div id="done" class="consent-card ok-panel hidden">
-      <div class="big">✅</div>
+      <div class="big" aria-hidden="true">✅</div>
       <h1>Consent recorded — thank you!</h1>
       <p class="sub">You can close this page. The coach's app will unlock
         <span id="doneAthlete">your athlete</span> automatically.</p>
@@ -100,12 +100,12 @@
       <label for="vemail">Your email</label>
       <input id="vemail" type="email" autocomplete="email" placeholder="you@example.com">
       <button id="sendLink" class="consent-btn" disabled>Send me the link</button>
-      <div id="verr" class="err hidden"></div>
+      <div id="verr" class="err hidden" role="alert"></div>
       <p class="note">Already have the link? Open it on this device and you'll land on Step 2.</p>
     </div>
 
     <div id="sent" class="consent-card ok-panel hidden">
-      <div class="big">📬</div>
+      <div class="big" aria-hidden="true">📬</div>
       <h1>Check your email</h1>
       <p class="sub">We sent a sign-in link to <strong><span id="sentTo"></span></strong>.
         Open it on this device to continue to Step 2 (review &amp; consent).
@@ -159,7 +159,7 @@
           can be turned off later.</label></div>
 
       <button id="submit" class="consent-btn" disabled>I Consent</button>
-      <div id="err" class="err hidden"></div>
+      <div id="err" class="err hidden" role="alert"></div>
     </div>
 
     <div class="page-foot">Softball AI Trainer ·

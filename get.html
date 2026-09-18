@@ -7,7 +7,7 @@
   <meta name="description" content="Get Softball AI Trainer — AI pitching and hitting analysis for fastpitch softball, on your phone. No sensors — your video never leaves your device.">
   <link rel="canonical" href="https://softballaitrainer.com/get.html">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="stylesheet" href="css/style.css?v=20260907">
+  <link rel="stylesheet" href="css/style.css?v=20260918">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -15,6 +15,8 @@
   <meta property="og:title" content="Get Softball AI Trainer">
   <meta property="og:description" content="AI pitching and hitting analysis for fastpitch softball, on your phone. No sensors — your video never leaves your device.">
   <meta property="og:image" content="https://softballaitrainer.com/og-image.png?v=4">
+  <meta property="og:image:alt" content="Softball AI Trainer app icon with the tagline AI-Powered Softball Training">
+  <meta name="twitter:image:alt" content="Softball AI Trainer app icon with the tagline AI-Powered Softball Training">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Softball AI Trainer">
@@ -36,6 +38,10 @@
     var APP_STORE_URL = '';  // iOS (date TBD)
     (function () {
       var ua = navigator.userAgent || '';
+      // Play reviewers open get.html?ref=review on Android devices: they must
+      // land on the page (sample section), never be bounced to the store.
+      var ref = new URLSearchParams(location.search).get('ref') || '';
+      if (ref === 'review') return;
       if (PLAY_URL && /Android/i.test(ua)) { location.replace(PLAY_URL); }
       else if (APP_STORE_URL && /iPhone|iPad|iPod/i.test(ua)) { location.replace(APP_STORE_URL); }
     })();
@@ -55,6 +61,7 @@
     </div>
   </header>
 
+  <main>
   <section class="hero">
     <div class="container">
       <h1>Get Softball AI Trainer</h1>
@@ -110,6 +117,8 @@
     </div>
   </section>
 
+  </main>
+
   <footer class="site-footer">
     <div class="container">
       <span>&copy; 2026 BMD Labs LLC. All rights reserved.</span>
@@ -157,7 +166,8 @@
                         headers: { 'Accept': 'application/json' } })
         .then(function (r) {
           if (!r.ok) throw new Error('bad status');
-          f.innerHTML = '<p class="form-success">🥎 You’re on the list! We’ll email you when the app launches.</p>';
+          f.innerHTML = '<p class="form-success" role="status" tabindex="-1"><span aria-hidden="true">🥎</span> You’re on the list! We’ll email you when the app launches.</p>';
+          f.firstElementChild.focus();
         })
         .catch(function () {
           if (btn) { btn.disabled = false; btn.textContent = old; }
@@ -165,6 +175,7 @@
           if (!err) {
             err = document.createElement('p');
             err.className = 'form-error';
+            err.setAttribute('role', 'alert');
             f.appendChild(err);
           }
           err.textContent = 'Something went wrong — please try again, or email support@softballaitrainer.com.';
