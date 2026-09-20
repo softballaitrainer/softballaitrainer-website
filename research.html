@@ -48,6 +48,15 @@
       <p>Softball AI Trainer uses <strong>Google ML Kit pose detection (MediaPipe)</strong> to extract 33 skeletal landmarks &mdash; including heel and foot position, critical for stride mechanics &mdash; from your video, entirely on your phone. We then apply biomechanical scoring algorithms. Our pitching thresholds are anchored to the published fastpitch kinematic studies cited below. Our hitting checkpoints are coaching-standard swing markers; where they overlap with the collegiate softball swing research cited below &mdash; hip and trunk rotation through contact and the finish &mdash; that research informed what we measure, and the trunk-rotation power literature supports the weight we give rotation. Because published youth softball hitting kinematics are limited, our youth hitting targets are calibrated against our own recorded-swing dataset rather than taken from collegiate values.</p>
       <p>All video processing happens on-device. Your video is never uploaded &mdash; the only images that leave your phone are analysis cards you explicitly choose to share.</p>
 
+      <h2>Pitching Analysis</h2>
+      <p>Our pitching analysis evaluates four phases: <strong>Power Load, Stride, Release Zone, and Follow-Through</strong>:</p>
+      <ul>
+        <li><strong>Power Load</strong> — Trunk alignment and drive knee flexion at push-off</li>
+        <li><strong>Stride</strong> — Stride length as a percentage of body height, with age-adjusted targets</li>
+        <li><strong>Release Zone</strong> — Arm speed, hip lead (how far the hips are ahead of the shoulders at foot plant), and release position</li>
+        <li><strong>Follow-Through</strong> — Balance and body control after release</li>
+      </ul>
+
       <h2>Hitting Analysis</h2>
       <p>Our hitting analysis breaks down your swing into four phases: <strong>Load, Stride, Contact Zone, and Follow-Through</strong>. Each phase is scored using biomechanical metrics derived from pose keypoints:</p>
       <ul>
@@ -57,15 +66,6 @@
         <li><strong>Follow-Through</strong> — Finish height, wrist crossover, and whether the finish is held (balance, and the feet staying planted after contact)</li>
       </ul>
       <p>Contact detection uses a custom-trained ball-detection neural network that tracks the ball through the contact window to identify the exact moment of impact, with pixel-level frame differencing as a fallback.</p>
-
-      <h2>Pitching Analysis</h2>
-      <p>Our pitching analysis evaluates four phases: <strong>Power Load, Stride, Release Zone, and Follow-Through</strong>:</p>
-      <ul>
-        <li><strong>Power Load</strong> — Trunk alignment and drive knee flexion at push-off</li>
-        <li><strong>Stride</strong> — Stride length as a percentage of body height, with age-adjusted targets</li>
-        <li><strong>Release Zone</strong> — Arm speed, hip lead (how far the hips are ahead of the shoulders at foot plant), and release position</li>
-        <li><strong>Follow-Through</strong> — Balance and body control after release</li>
-      </ul>
 
       <h2>Age-Appropriate Scoring</h2>
       <p>Youth athletes are not small adults. Our scoring thresholds step up by age bracket (10U, 12U, 14U, 16U, 18U). Where published youth and collegiate values exist we anchor to them: the Power Load drive-knee target runs from the published youth mean (about 25&deg;, measured at ages 12&ndash;15) at 12U to the collegiate mean (about 38&deg;) at 18U, with 14U and 16U interpolated and 10U extrapolated below the youngest measured group. Where the literature is mixed &mdash; published mean stride length runs from about 61% of body height in 9-to-13-year-olds to about 89% in older youth and collegiate pitchers, with no difference in the one direct youth-versus-collegiate comparison &mdash; the age steps are coaching judgment, set as goals above typical values rather than as population averages: a 10U pitcher earns full stride credit at 75% of body height, 12U at 85%, and 14U and older at 95%. A long stride is never penalized, and a shorter stride is scored down gradually rather than failed.</p>
