@@ -75,21 +75,30 @@
 
     <div id="notfound" class="consent-card hidden">
       <h1>Link not found</h1>
-      <p class="sub">This consent link isn't available yet or has expired. If the coach just
-      sent it, give it a minute and refresh — otherwise ask them to send a new link.</p>
+      <p class="sub">This consent link isn't available yet or has expired. If it was just
+      sent, give it a minute and refresh — otherwise ask the person who asked for your consent to send a new link.</p>
+    </div>
+
+    <!-- Load failure that is NOT a missing/withdrawn invite (offline, service
+         error): the link itself is fine, so offer a retry instead of telling the
+         parent it expired. -->
+    <div id="loaderr" class="consent-card hidden">
+      <h1 id="loaderrTitle">Couldn't load this page</h1>
+      <p class="sub" id="loaderrMsg">Something went wrong loading this consent request.</p>
+      <button id="retry" class="consent-btn">Try again</button>
     </div>
 
     <div id="done" class="consent-card ok-panel hidden">
       <div class="big" aria-hidden="true">✅</div>
       <h1>Consent recorded — thank you!</h1>
-      <p class="sub">You can close this page. The coach's app will unlock
-        <span id="doneAthlete">your athlete</span> automatically.</p>
+      <p class="sub">You can close this page. The next time the person who asked for your consent uses
+        Softball AI Trainer, <span id="doneAthlete">your athlete</span> will be unlocked for analysis.</p>
     </div>
 
     <!-- Step 1: prove control of the parent's email (COPPA "email plus") -->
     <div id="verify" class="consent-card hidden">
       <h1>Parental consent for <span id="athleteNameV">…</span></h1>
-      <p class="sub">A coach uses Softball AI Trainer to analyze
+      <p class="sub">Someone who uses Softball AI Trainer (for example, a coach or a family member) has asked for your consent to analyze
         <span id="athleteNameV2">this athlete</span>'s softball mechanics
         (<span id="ageGroupV"></span>). Because this athlete is under 13, U.S. law (COPPA)
         requires consent from a parent or legal guardian — and requires us to
@@ -97,6 +106,8 @@
       <p class="sub"><strong>Step 1 of 2:</strong> enter your email and we'll send you a
         one-time sign-in link. Opening it brings you back here to review and
         give consent. No password, no account.</p>
+      <p class="sub">If a parent or guardian doesn't give consent within 30 days of when this link was first sent, we delete
+        this request and remove the child's name from the requester's Softball AI Trainer account.</p>
       <label for="vemail">Your email</label>
       <input id="vemail" type="email" autocomplete="email" placeholder="you@example.com">
       <button id="sendLink" class="consent-btn" disabled>Send me the link</button>
@@ -115,17 +126,18 @@
     <!-- Step 2: review + grant (only reachable with a verified email session) -->
     <div id="form" class="consent-card hidden">
       <h1>Parental consent for <span id="athleteName">…</span></h1>
-      <p class="sub"><strong>Step 2 of 2.</strong> A coach uses Softball AI Trainer to analyze
+      <p class="sub"><strong>Step 2 of 2.</strong> Someone who uses Softball AI Trainer (for example, a coach or a family member) has asked for your consent to analyze
         <span id="athleteName2">this athlete</span>'s softball mechanics
         (<span id="ageGroup"></span>). Because this athlete is under 13, U.S. law (COPPA)
         requires consent from a parent or legal guardian before the app can analyze
         their practice videos.</p>
       <ul>
-        <li>Practice video is analyzed <strong>on the device</strong> — video is never uploaded to our servers. Images leave the device only if the coach explicitly shares an analysis card (first name, scores, and a keyframe image).</li>
-        <li>Only your child's age bracket, analysis scores, skeletal position measurements, typed questions, and a scrambled code that stands for the account are sent to our AI coaching provider (Anthropic) — never photos, video, your child's name, or contact information. The app replaces the child's name with a placeholder before anything leaves the device.</li>
-        <li>Scores and progress are stored locally in the coach's app on their device &mdash; analysis results are not uploaded to our servers.</li>
+        <li>Practice video is analyzed <strong>on the device</strong> — video is never uploaded to our servers. Images leave the device only if the person who asked for your consent explicitly shares an analysis card (first name, age bracket, scores, and a keyframe image) or an achievement card (first name and age bracket, no photo), or through that person's own Android device backup if they have it turned on.</li>
+        <li>Only your child's age bracket, analysis scores, skeletal position measurements, typed questions, and a scrambled code that stands for the account are sent to our AI coaching provider (Anthropic) — never photos or video. Before anything leaves the device, the app replaces your child's full name with a placeholder and removes email addresses, phone numbers, and social-media @handles from typed questions; users are asked not to type other personal details.</li>
+        <li>Scores, progress, and result images are stored in the app on the requester's device &mdash; analysis results are not uploaded to our servers. If Android backup is turned on for that device, Android may copy the app's on-device data (including this athlete's profile) to the requester's own Google account backup.</li>
+        <li>Your child's first name, birth year, age bracket (and whether they are under 13), throwing and batting hand, skill focus, and consent status are stored in our secure cloud database in the requester's account so the app can manage the athlete profile. They are deleted when the requester deletes the athlete or their account. The one exception is the consent record described below: it includes your child's first name and under-13 status and is kept while the requester's account exists and for up to three years after that account is deleted.</li>
         <li>A secure record of this consent is kept for your child's protection.</li>
-        <li>You may revoke consent any time by contacting the coach or
+        <li>You may revoke consent any time by contacting the person who asked for your consent (they can withdraw it in the app under Settings &rarr; Consent Records) or
             <a href="mailto:support@softballaitrainer.com">support@softballaitrainer.com</a>.</li>
       </ul>
 
@@ -154,8 +166,9 @@
         <label for="c3"><strong>Optional:</strong> I also consent to AI coaching (Coach Jodi) for
           <strong><span id="athleteName4"></span></strong>. When it is used, the age
           bracket, scores, body-position measurements and typed questions described
-          above are sent to our AI provider (Anthropic) &mdash; never the name, video
-          or photos. Video analysis, scores and drills all work without this, and it
+          above are sent to our AI provider (Anthropic) &mdash; never video or photos, and
+          your child's full name, email addresses, phone numbers and @handles are
+          removed from typed questions first. Video analysis, scores and drills all work without this, and it
           can be turned off later.</label></div>
 
       <button id="submit" class="consent-btn" disabled>I Consent</button>
@@ -186,7 +199,7 @@ const firebaseConfig = {
   appId: "1:616135177846:web:d4755a6f81fc79b1919157",
 };
 
-const PANELS = ["loading", "notfound", "done", "verify", "sent", "form"];
+const PANELS = ["loading", "notfound", "loaderr", "done", "verify", "sent", "form"];
 const $ = (id) => document.getElementById(id);
 const show = (id) => { for (const s of PANELS) $(s).classList.add("hidden"); $(id).classList.remove("hidden"); };
 const EMAIL_KEY = "sai_consent_email";
@@ -197,6 +210,43 @@ const token = params.get("token");
 // The sign-in link must bring the parent back to THIS invite. Firebase appends
 // its own oobCode/mode params; we keep our token in the continue URL.
 const continueUrl = () => `${location.origin}${location.pathname}?token=${encodeURIComponent(token)}`;
+
+// Firebase Auth (auth/*) and Firestore (bare) codes that mean "couldn't reach
+// the service" rather than "this invite doesn't exist".
+const isNetworkError = (e) =>
+  !navigator.onLine ||
+  ["auth/network-request-failed", "unavailable", "deadline-exceeded"].includes(e && e.code);
+
+// Why the email sign-in link didn't work, in words a parent can act on.
+function emailLinkErrorMessage(e) {
+  switch (e && e.code) {
+    case "auth/invalid-action-code":
+    case "auth/expired-action-code":
+      return "That sign-in link has expired or was already used. Enter your email below and we'll send a new one.";
+    case "auth/invalid-email":
+      return "That email address doesn't match the one the sign-in link was sent to. Enter the address you used and we'll send a new link.";
+    case "auth/network-request-failed":
+      return "We couldn't finish signing you in — check your internet connection, then open the link from your email again.";
+    default:
+      return "We couldn't finish signing you in with that link. Enter your email below and we'll send a new one." +
+        (e && e.code ? " (" + e.code + ")" : "");
+  }
+}
+
+function showLoadError(e) {
+  if (isNetworkError(e)) {
+    $("loaderrTitle").textContent = "Can't connect right now";
+    $("loaderrMsg").textContent = "We couldn't reach our servers to load this consent request. " +
+      "Check your internet connection and try again — your link is still good.";
+  } else {
+    $("loaderrTitle").textContent = "Couldn't load this page";
+    $("loaderrMsg").textContent = "Something went wrong loading this consent request. Please try again in a " +
+      "moment. If it keeps happening, email support@softballaitrainer.com." +
+      (e && e.code ? " (" + e.code + ")" : "");
+  }
+  $("retry").onclick = () => location.reload();
+  show("loaderr");
+}
 
 async function main() {
   if (!token) { show("notfound"); return; }
@@ -209,6 +259,7 @@ async function main() {
 
     // ── Returning from the email link? Complete the verified sign-in first. ──
     let verifiedEmail = null;
+    let linkError = null;   // shown on Step 1 when the sign-in link didn't work
     if (isSignInWithEmailLink(auth, location.href)) {
       let email = null;
       try { email = localStorage.getItem(EMAIL_KEY); } catch (_) {}
@@ -221,9 +272,15 @@ async function main() {
           // Drop the one-time code from the address bar (keeps refresh working).
           history.replaceState(null, "", continueUrl());
         } catch (e) {
-          // Expired/used link → fall back to Step 1 with a message.
+          // Expired/used/mismatched link → fall back to Step 1 WITH a message
+          // (never silently). A network failure keeps the code in the address
+          // bar so a refresh can retry it; a dead code is dropped.
           console.warn("email-link sign-in failed", e);
+          linkError = emailLinkErrorMessage(e);
+          if (!isNetworkError(e)) history.replaceState(null, "", continueUrl());
         }
+      } else {
+        linkError = "We need the email address the sign-in link was sent to. Enter it below and we'll send a new link.";
       }
     }
     if (!verifiedEmail) {
@@ -231,7 +288,17 @@ async function main() {
       if (!auth.currentUser) await signInAnonymously(auth);
     }
 
-    const snap = await getDoc(ref);
+    // Invites are only ever 'pending' or 'granted' (revoked ones are
+    // deleted). The rules may refuse to let a link holder read a GRANTED
+    // invite (it carries the parent's identity), so permission-denied here
+    // means "already granted": show the done panel with the generic name.
+    let snap;
+    try {
+      snap = await getDoc(ref);
+    } catch (e) {
+      if (e && e.code === "permission-denied") { show("done"); return; }
+      throw e;
+    }
     if (!snap.exists()) { show("notfound"); return; }
     invite = snap.data();
     if (invite.status === "granted") {
@@ -246,11 +313,17 @@ async function main() {
     $("ageGroup").textContent = invite.ageGroup || "";
     $("ageGroupV").textContent = invite.ageGroup || "";
 
-    if (!verifiedEmail) { stepOne(auth); return; }
+    if (!verifiedEmail) {
+      stepOne(auth);
+      if (linkError) { $("verr").textContent = linkError; $("verr").classList.remove("hidden"); }
+      return;
+    }
     stepTwo(auth, ref, invite, verifiedEmail);
   } catch (e) {
+    // "Not found" is reserved for a missing/withdrawn invite (handled above);
+    // anything thrown here is a load failure — offline or a service error.
     console.error(e);
-    show("notfound");
+    showLoadError(e);
   }
 }
 
