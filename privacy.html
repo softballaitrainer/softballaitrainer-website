@@ -42,7 +42,7 @@
     <article class="legal">
 
       <h1>Privacy Policy</h1>
-      <p class="effective-date">Effective Date: September 28, 2026</p>
+      <p class="effective-date">Effective Date: September 30, 2026</p>
 
       <p>Softball AI Trainer ("the App") is operated by BMD Labs LLC, an Ohio limited liability company ("we," "our," or "us"). This Privacy Policy explains how we collect, use, and protect information when you use our mobile application and our website at softballaitrainer.com, including the launch-notification signup form and the parental-consent page. We are committed to protecting your privacy and complying with the Children's Online Privacy Protection Act (COPPA) and all applicable privacy laws. The App and our website are operated from the United States and intended for users in the United States.</p>
 
@@ -91,8 +91,13 @@
 
       <h3>Analytics and Diagnostics</h3>
       <ul>
-        <li><strong>Usage analytics — none.</strong> Google Analytics is not enabled for the App: we do not collect screen views, feature-usage events, or any other usage analytics. <strong>Advertising-identifier collection is disabled</strong> and ad-personalization signals are turned off.</li>
+        <li><strong>Usage analytics — none.</strong> Google Analytics is not enabled for the App: we do not collect screen views, feature-usage events, or any other usage analytics of our own (Google ML Kit's diagnostics, described below, are the only exception). <strong>Advertising-identifier collection is disabled</strong> and ad-personalization signals are turned off.</li>
         <li><strong>Firebase Crashlytics</strong> — collects crash reports and diagnostic data to help us fix bugs.</li>
+        <li><strong>Google ML Kit diagnostics</strong> — the App uses Google ML Kit, running on your device, to detect body positions in your video. ML Kit sends Google limited technical information about its own performance and use: device information (such as manufacturer, model, Android version, and available machine-learning hardware), the App's package name and version, per-installation identifiers that are not intended to uniquely identify a user or physical device, performance metrics (such as processing time), ML Kit settings (such as image format and resolution), input and output sizes, the ML Kit feature version, and event types (such as start-up, detection, and shutdown) and error codes. For pose detection, ML Kit also uses Firebase Remote Config and Firebase installation identifiers for its remote-configuration diagnostics. Google uses this data for diagnostics and usage analytics — to measure performance, debug, maintain and improve ML Kit, and detect misuse or abuse; it is sent over HTTPS, and Google does not transfer it to third parties. <strong>ML Kit never sends images, video, or the body positions it detects to Google</strong> &mdash; that processing happens entirely on your device.</li>
+        <!-- ML Kit sources (re-verify before each re-date; both pages "Last modified: May 14, 2025" when checked Sept 30, 2026):
+             https://developers.google.com/ml-kit/android-data-disclosure — "Data collected in all features": device information, application information, per-installation identifiers (bundled features: "not intended to uniquely identify a user or physical device"), performance metrics, API configuration, input/output size, feature version, event type, error codes — "Used for diagnostics and usage analytics"; "ML Kit encrypts the data in transit using HTTPS"; "ML Kit does not transfer this data to third-parties"; pose detection: "ML Kit uses Firebase remote config and Firebase installations for remote configuration diagnostics."
+             https://developers.google.com/ml-kit/terms — "processing of the input data (e.g. images, video, text) fully happens on-device, and ML Kit does not send that data and the resultant outputs to Google servers"; "Google uses this metrics data to measure performance, debug, maintain and improve the APIs, and detect misuse or abuse"; developers must inform users of this processing.
+             App uses the bundled com.google.mlkit:pose-detection + pose-detection-accurate 18.0.0-beta5 (google_mlkit_pose_detection 0.14.1). -->
       </ul>
 
       <h2>2. Account Eligibility</h2>
@@ -113,6 +118,7 @@
       <p>We do not sell, rent, or trade your personal information to third parties. We share limited data with the following service providers, solely to operate the App:</p>
       <ul>
         <li><strong>Firebase (Google)</strong> — authentication, cloud data storage, and crash reporting</li>
+        <li><strong>Google ML Kit</strong> — performs pose detection on your device; Google receives only the ML Kit diagnostics described in Section 1 (never images, video, or detected body positions) and does not transfer them to third parties</li>
         <li><strong>Formspree, our website form provider</strong> — if you enter your email address in the launch-notification form on our website, Formspree receives that address and the page you submitted it from, so it can forward it to us. We use it only to email you about the launch, and we do not sell or share it. This applies to the website only; the App does not use Formspree.</li>
         <li><strong>Anthropic (the company that makes Claude), our AI-coaching provider</strong> — receives the athlete's age bracket, calculated analysis scores, skeletal position measurements, your typed questions, and a one-way scrambled code derived from your account ID (never your name or email) that lets Anthropic detect misuse, solely to generate Coach Jodi's responses. Before your questions are sent, the App replaces the athlete's full name with a placeholder and removes email addresses, phone numbers, and social-media @handles; anything else is sent as you write it, so please do not type other personal details (such as other people's names, addresses, or school or team names) into Coach Jodi. Requests are sent through our own secure server, never directly from the App. Anthropic never receives video, photos, or birth year. It acts as our service provider under its commercial terms, automatically deletes the data within 30 days (longer only if its safety systems flag a request or retention is required by law), and does not use it to train its models.</li>
         <li><strong>Google Play</strong> — processes subscription payments; we never see your payment details</li>
@@ -181,7 +187,7 @@
         <li><strong>Parent sign-in records</strong> — when a parent grants consent on our website, we create a sign-in record containing their email address so we can confirm they control it. It is kept for as long as the related consent record is kept, and then deleted.</li>
         <li><strong>Launch-notification emails</strong> — an email address submitted through the website signup form is kept until the App launches, or until you ask us to remove you, whichever comes first.</li>
         <li><strong>Subscription records</strong> — the subscription record held by our subscription-management provider (RevenueCat) is deleted when you delete your account. Google Play, not RevenueCat, is the seller and biller. Google Play retains its own purchase history under Google's policies, which we do not control.</li>
-        <li><strong>Crash data</strong> — crash reports tied to a random app identifier are retained by Firebase for approximately 90 days. We do not collect usage analytics (Google Analytics is not enabled for the App).</li>
+        <li><strong>Crash data</strong> — crash reports tied to a random app identifier are retained by Firebase for approximately 90 days. We do not collect usage analytics of our own (Google Analytics is not enabled for the App; Google ML Kit's diagnostics are described in Section 1).</li>
       </ul>
 
       <h2>9. Your Rights</h2>
